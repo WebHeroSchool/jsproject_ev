@@ -3,12 +3,30 @@
 
 <head>
     <title>Подключаемый JS</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-<p id ="text"> Ждем ответы на вопросы </p>
+    <a id="text" href="#"> Пройдите тест </a>
 
-<script src="script.js" type="text/javascript"></script>
+    <h3 id='question'></h3>
+    <p class="correctAnswer">Вы пока не ответили ни на один вопрос</p>
+    <div class="slider">Слайд</div>
+    <div class="slider">Слайд</div>
+    <div class="slider">Слайд</div>
+    <div class="slider">Слайд</div>
+
+
+    <div class="container">
+        <div class="form">
+            <a class='nextbutton' href="#"> Следующий слайд </a>
+        </div>
+        <div class="form">
+            <a class='previousbutton' href="#"> Предыдущий слайд </a>
+        </div>
+    </div>
+
+    <script src="script.js" type="text/javascript"></script>
 
 </body>
 
