@@ -30,12 +30,12 @@ function showResults() {
 
 const nextButton = document.querySelector('.nextbutton');
 nextButton.addEventListener('click', (event) => {
-	console.log('button');
+	console.log('Следующий слайд');
 });
 
 const previousButton = document.querySelector('.previousbutton');
-nextButton.addEventListener('click', (event) => {
-	console.log('button');
+previousButton.addEventListener('click', (event) => {
+	console.log('Предыдущий слайд');
 });
 
 const submitButton = document.getElementById('text');
