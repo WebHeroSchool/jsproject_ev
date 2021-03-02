@@ -6,7 +6,7 @@ let question3 = { question: '2 + 2 = 22?', answers: { a: 'да', b: 'нет,' },
 let question4 = { question: 'Помидор это фрукт?', answers: { a: 'да', b: 'нет,' }, correctAnswer: 'нет' };
 let questions = [question1, question2, question3, question4];
 
-let quizContainer = document.querySelectorAll('.quiz-container');
+let quizContainer = document.querySelector('.quiz-container');
 
 const buildQuiz = (questions) => {
 	const output = [];
@@ -22,7 +22,8 @@ const buildQuiz = (questions) => {
 			);
 		}
 		output.push(
-			`<div class="question">${answers.join('')}</div>`
+			`<div class="question"> ${currentQuestion.question} </div>
+			<div class="answers"> ${answers.join('')} </div>`
 		);
 	});
 	quizContainer.innerHTML = output.join('');
@@ -30,6 +31,7 @@ const buildQuiz = (questions) => {
 
 function showResults() {
 	const answerContainers = quizContainer.querySelectorAll('.answers');
+	console.log(answerContainers);
 	let numCorrect = 0;
 	questions.forEach((currentQuestion, questionNumber) => {
 		const answerContainer = answerContainers[questionNumber];
@@ -40,6 +42,7 @@ function showResults() {
 		}
 	});
 }
+
 
 const nextButton = document.getElementById('next');
 nextButton.addEventListener('click', (event) => {
