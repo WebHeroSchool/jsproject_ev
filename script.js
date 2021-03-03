@@ -31,7 +31,7 @@ const buildQuiz = (questions) => {
 
 function showResults() {
 	const answerContainers = quizContainer.querySelectorAll('.answers');
-	console.log(answerContainers);
+
 	let numCorrect = 0;
 	questions.forEach((currentQuestion, questionNumber) => {
 		const answerContainer = answerContainers[questionNumber];
@@ -42,7 +42,7 @@ function showResults() {
 		}
 	});
 }
-
+showResults();
 
 const nextButton = document.getElementById('next');
 nextButton.addEventListener('click', (event) => {
