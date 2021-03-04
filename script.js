@@ -1,14 +1,4 @@
-let num = 0;
-let score = 0;
-let question1 = { question: 'Планета Земля круглая?', answers: { a: 'да', b: 'нет,' }, correctAnswer: 'да' };
-let question2 = { question: 'В году 12 месяцев?', answers: { a: 'да', b: 'нет,' }, correctAnswer: 'да' };
-let question3 = { question: '2 + 2 = 22?', answers: { a: 'да', b: 'нет,' }, correctAnswer: 'нет' };
-let question4 = { question: 'Помидор это фрукт?', answers: { a: 'да', b: 'нет,' }, correctAnswer: 'нет' };
-let questions = [question1, question2, question3, question4];
-
-let quizContainer = document.querySelector('.quiz-container');
-
-const buildQuiz = (questions) => {
+const buildQuiz = () => {
 	const output = [];
 	questions.forEach((currentQuestion, questionNumber) => {
 		const answers = [];
@@ -29,22 +19,75 @@ const buildQuiz = (questions) => {
 	quizContainer.innerHTML = output.join('');
 }
 
+
 function showResults() {
 	const answerContainers = quizContainer.querySelectorAll('.answers');
-
 	let numCorrect = 0;
 	questions.forEach((currentQuestion, questionNumber) => {
 		const answerContainer = answerContainers[questionNumber];
+		const input = `input[name=question${questionNumber}]`;
 		const selector = `input[name=question${questionNumber}]:checked`;
 		const userAnswer = (answerContainer.querySelector(selector) || {}).value;
 		if (userAnswer === currentQuestion.correctAnswer) {
 			numCorrect++;
+			input.setAttribute('disable', 'disable');
+			answerContainers[questionNumber].style.color = 'lightgreen';
+
+		}
+		else {
+			answerContainers[questionNumber].style.color = 'red';
 		}
 	});
-}
-showResults();
 
-const nextButton = document.getElementById('next');
+	resultsContainer.innerHTML = `Правильных ответов ${numCorrect} из ${questions.length}`;
+
+}
+let quizContainer = document.querySelector('.quiz-container');
+const resultsContainer = document.getElementById('results');
+const submitButton = document.getElementById('submit');
+const questions = [
+	{
+		question: 'Планета Земля круглая?',
+		answers: {
+			a: "да",
+			b: "нет",
+		},
+		correctAnswer: "a"
+	},
+	{
+		question: 'В году 12 месяцев?',
+		answers: {
+			a: "да",
+			b: "нет",
+		},
+		correctAnswer: "a"
+	},
+	{
+		question: '2 + 2 = 22?',
+		answers: {
+			a: "да",
+			b: "нет",
+		},
+		correctAnswer: "b"
+	},
+	{
+		question: 'Помидор это фрукт?',
+		answers: {
+			a: "да",
+			b: "нет",
+		},
+		correctAnswer: "b"
+	},
+];
+
+buildQuiz();
+
+submitButton.addEventListener('click', () => {
+	showResults();
+});
+
+
+/*const nextButton = document.getElementById('next');
 nextButton.addEventListener('click', (event) => {
 	console.log('Следующий слайд');
 });
@@ -52,11 +95,6 @@ nextButton.addEventListener('click', (event) => {
 const previousButton = document.getElementById('previous');
 previousButton.addEventListener('click', (event) => {
 	console.log('Предыдущий слайд');
-});
-
-const submitButton = document.getElementById('submit');
-submitButton.addEventListener('click', () => {
-	showResults();
 });
 
 let currentSlide = 0;
@@ -82,5 +120,4 @@ function showNextSlide() {
 }
 function showPreviousSlide() {
 	showSlide(currentSlide - 1);
-}
-buildQuiz(questions);
+}*/
