@@ -1,3 +1,4 @@
+
 const buildQuiz = () => {
 	const output = [];
 	questions.forEach((currentQuestion, questionNumber) => {
@@ -5,7 +6,7 @@ const buildQuiz = () => {
 		for (let letter in currentQuestion.answers) {
 			answers.push(
 				`<label class="answer">
-					<input type="radio" name="question${questionNumber}" value="${letter}">
+					<input type="radio" id="input" name="question${questionNumber}" value="${letter}" onclick="func()">
 						${letter}:
 						${currentQuestion.answers[letter]}
 				</label>`
@@ -17,7 +18,13 @@ const buildQuiz = () => {
 		);
 	});
 	quizContainer.innerHTML = output.join('');
+
+	function func() {
+		quizContainer.getElementById("input").disabled = true;
+	}
+	func();
 }
+
 
 
 function showResults() {
@@ -25,14 +32,11 @@ function showResults() {
 	let numCorrect = 0;
 	questions.forEach((currentQuestion, questionNumber) => {
 		const answerContainer = answerContainers[questionNumber];
-		const input = `input[name=question${questionNumber}]`;
 		const selector = `input[name=question${questionNumber}]:checked`;
 		const userAnswer = (answerContainer.querySelector(selector) || {}).value;
 		if (userAnswer === currentQuestion.correctAnswer) {
 			numCorrect++;
-			input.setAttribute('disable', 'disable');
 			answerContainers[questionNumber].style.color = 'lightgreen';
-
 		}
 		else {
 			answerContainers[questionNumber].style.color = 'red';
@@ -42,6 +46,8 @@ function showResults() {
 	resultsContainer.innerHTML = `Правильных ответов ${numCorrect} из ${questions.length}`;
 
 }
+
+
 let quizContainer = document.querySelector('.quiz-container');
 const resultsContainer = document.getElementById('results');
 const submitButton = document.getElementById('submit');
