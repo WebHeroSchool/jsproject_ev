@@ -6,7 +6,7 @@ const buildQuiz = () => {
 		for (let letter in currentQuestion.answers) {
 			answers.push(
 				`<label class="answer">
-					<input type="radio" id="input" name="question${questionNumber}" value="${letter}" onclick="func()">
+					<input type="radio" class="input" name="question${questionNumber}" value="${letter}" >
 						${letter}:
 						${currentQuestion.answers[letter]}
 				</label>`
@@ -18,18 +18,18 @@ const buildQuiz = () => {
 		);
 	});
 	quizContainer.innerHTML = output.join('');
-
 }
 function func() {
-	document.getElementById("input").disabled = true;
+	let inputs = document.querySelectorAll(".input");
+	for (let i = 0; i < inputs.length; i++) {
+		inputs[i].disabled = true;
+	}
 };
-for (let elem of questions) {
-	
-}
+let elem = document.querySelectorAll('.input');
 
-function showResults() {
+let numCorrect = 0;
+function checkResult() {
 	const answerContainers = quizContainer.querySelectorAll('.answers');
-	let numCorrect = 0;
 	questions.forEach((currentQuestion, questionNumber) => {
 		const answerContainer = answerContainers[questionNumber];
 		const selector = `input[name=question${questionNumber}]:checked`;
@@ -42,6 +42,9 @@ function showResults() {
 			answerContainers[questionNumber].style.color = 'red';
 		}
 	});
+}
+
+function showResults() {
 
 	resultsContainer.innerHTML = `Правильных ответов ${numCorrect} из ${questions.length}`;
 
@@ -89,7 +92,9 @@ const questions = [
 buildQuiz();
 
 submitButton.addEventListener('click', () => {
+	checkResult();
 	showResults();
+	elem.onclick = func();
 });
 
 
