@@ -1,55 +1,134 @@
-let num = 0;
-let score = 0;
-let question1 = { question: 'Планета Земля круглая?', correctAnswer: 'да' };
-let question2 = { question: 'В году 12 месяцев?', correctAnswer: 'да' };
-let question3 = { question: '2 + 2 = 22?', correctAnswer: 'нет' };
-let question4 = { question: 'Помидор это фрукт?', correctAnswer: 'нет' };
-let questions = [question1, question2, question3, question4];
 
-buildQuiz = (questions) => {
-	questions.forEach((item) => {
-		let question = document.getElementById('question');
-		question.innerHTML += ' ' + item.question
-		question.style.color = 'blue';
-	})
+const buildQuiz = () => {
+	const output = [];
+	questions.forEach((currentQuestion, questionNumber) => {
+		const answers = [];
+		for (let letter in currentQuestion.answers) {
+			answers.push(
+				`<label class="answer">
+					<input type="radio" class="input" name="question${questionNumber}" value="${letter}" >
+						${letter}:
+						${currentQuestion.answers[letter]}
+				</label>`
+			);
+		}
+		output.push(
+			`<div class="question"> ${currentQuestion.question} </div>
+			<div class="answers"> ${answers.join('')} </div>`
+		);
+	});
+	quizContainer.innerHTML = output.join('');
 }
+function func() {
+	let inputs = document.querySelectorAll(".input");
+	for (let i = 0; i < inputs.length; i++) {
+		inputs[i].disabled = true;
+	}
+};
+let elem = document.querySelectorAll('.input');
 
-buildQuiz(questions);
+let numCorrect = 0;
+function checkResult() {
+	const answerContainers = quizContainer.querySelectorAll('.answers');
+	questions.forEach((currentQuestion, questionNumber) => {
+		const answerContainer = answerContainers[questionNumber];
+		const selector = `input[name=question${questionNumber}]:checked`;
+		const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+		if (userAnswer === currentQuestion.correctAnswer) {
+			numCorrect++;
+			answerContainers[questionNumber].style.color = 'lightgreen';
+		}
+		else {
+			answerContainers[questionNumber].style.color = 'red';
+		}
+	});
+}
 
 function showResults() {
-	questions.forEach((item) => {
-		let i = prompt(item.questions);
-		if (item.correctAnswer.toLowerCase() === i.toLowerCase()) {
-			score++;
-		}
-	})
-	let answer = document.querySelector('.correctAnswer');
-	answer.innerHTML = 'Правильные ответы - : ' + score;
+
+	resultsContainer.innerHTML = `Правильных ответов ${numCorrect} из ${questions.length}`;
+
 }
 
 
-const nextButton = document.querySelector('.nextbutton');
+let quizContainer = document.querySelector('.quiz-container');
+const resultsContainer = document.getElementById('results');
+const submitButton = document.getElementById('submit');
+const questions = [
+	{
+		question: 'Планета Земля круглая?',
+		answers: {
+			a: "да",
+			b: "нет",
+		},
+		correctAnswer: "a"
+	},
+	{
+		question: 'В году 12 месяцев?',
+		answers: {
+			a: "да",
+			b: "нет",
+		},
+		correctAnswer: "a"
+	},
+	{
+		question: '2 + 2 = 22?',
+		answers: {
+			a: "да",
+			b: "нет",
+		},
+		correctAnswer: "b"
+	},
+	{
+		question: 'Помидор это фрукт?',
+		answers: {
+			a: "да",
+			b: "нет",
+		},
+		correctAnswer: "b"
+	},
+];
+
+buildQuiz();
+
+submitButton.addEventListener('click', () => {
+	checkResult();
+	showResults();
+	elem.onclick = func();
+});
+
+
+/*const nextButton = document.getElementById('next');
 nextButton.addEventListener('click', (event) => {
 	console.log('Следующий слайд');
 });
 
-const previousButton = document.querySelector('.previousbutton');
+const previousButton = document.getElementById('previous');
 previousButton.addEventListener('click', (event) => {
 	console.log('Предыдущий слайд');
 });
 
-const submitButton = document.getElementById('text');
-submitButton.addEventListener('click', () => {
-	showResults();
-});
-
-let slides = document.querySelectorAll('.slider');
 let currentSlide = 0;
-function nextSlide() {
-	for (let i = 0; i < slides.length; i++) {
-		currentSlide++;
-		console.log('номер слайда - ' + currentSlide);
+function showSlide(n) {
+	slides[currentSlide].classList.remove('active-slide');
+	slides[n].classList.add('active-slide');
+	currentSlide = n;
+	if (currentSlide === 0) {
+		previousButton.style.display = 'none';
+	} else {
+		previousButton.style.display = 'inline-block';
 	}
-
+	if (currentSlide === slides.length - 1) {
+		nextButton.style.display = 'none';
+		submitButton.style = 'inline-block';
+	} else {
+		nextButton.style.display = 'inline-block';
+		submitButton.style = 'none';
+	}
 }
-nextSlide();
+function showNextSlide() {
+	showSlide(currentSlide + 1);
+}
+function showPreviousSlide() {
+	showSlide(currentSlide - 1);
+}*/
