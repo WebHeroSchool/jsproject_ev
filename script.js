@@ -19,13 +19,13 @@ const buildQuiz = () => {
 	});
 	quizContainer.innerHTML = output.join('');
 
-	function func() {
-		quizContainer.getElementById("input").disabled = true;
-	}
-	func();
 }
-
-
+function func() {
+	document.getElementById("input").disabled = true;
+};
+for (let elem of questions) {
+	
+}
 
 function showResults() {
 	const answerContainers = quizContainer.querySelectorAll('.answers');
