@@ -1,4 +1,20 @@
-
+let form = document.querySelector('.form');
+let name = form.querySelector('.form-name');
+form.addEventListener('submit', function () {
+	event.preventDefault();
+	let regex = /^[А-ЯЁ]{1}[а-яё]+$/;
+	name.classList.remove('error');
+	if (!regex.test(name.value)) {
+		event.preventDefault();
+		console.log('error');
+		name.classList.add('error');
+		let error = document.createElement('div');
+		error.className = 'error-block';
+		error.style.color = 'red';
+		error.innerHTML = 'Имя указано неверно';
+		name.parentElement.insertBefore(error, name);
+	}
+})
 const buildQuiz = () => {
 	const output = [];
 	questions.forEach((currentQuestion, questionNumber) => {
@@ -13,12 +29,15 @@ const buildQuiz = () => {
 			);
 		}
 		output.push(
-			`<div class="question"> ${currentQuestion.question} </div>
-			<div class="answers"> ${answers.join('')} </div>`
+			`<div class="slide">
+			<div class="question"> ${currentQuestion.question} </div>
+			<div class="answers"> ${answers.join('')} </div>
+			</div>`
 		);
 	});
 	quizContainer.innerHTML = output.join('');
 }
+
 function func() {
 	let inputs = document.querySelectorAll(".input");
 	for (let i = 0; i < inputs.length; i++) {
@@ -45,15 +64,13 @@ function checkResult() {
 }
 
 function showResults() {
-
 	resultsContainer.innerHTML = `Правильных ответов ${numCorrect} из ${questions.length}`;
-
 }
 
-
-let quizContainer = document.querySelector('.quiz-container');
+const quizContainer = document.querySelector('.quiz-container');
 const resultsContainer = document.getElementById('results');
 const submitButton = document.getElementById('submit');
+
 const questions = [
 	{
 		question: 'Планета Земля круглая?',
@@ -89,26 +106,12 @@ const questions = [
 	},
 ];
 
-buildQuiz();
-
-submitButton.addEventListener('click', () => {
-	checkResult();
-	showResults();
-	elem.onclick = func();
-});
-
-
-/*const nextButton = document.getElementById('next');
-nextButton.addEventListener('click', (event) => {
-	console.log('Следующий слайд');
-});
-
+buildQuiz(questions);
 const previousButton = document.getElementById('previous');
-previousButton.addEventListener('click', (event) => {
-	console.log('Предыдущий слайд');
-});
-
+const nextButton = document.getElementById('next');
+const slides = document.querySelectorAll('.slide');
 let currentSlide = 0;
+
 function showSlide(n) {
 	slides[currentSlide].classList.remove('active-slide');
 	slides[n].classList.add('active-slide');
@@ -126,9 +129,19 @@ function showSlide(n) {
 		submitButton.style = 'none';
 	}
 }
+showSlide(currentSlide);
 function showNextSlide() {
 	showSlide(currentSlide + 1);
 }
 function showPreviousSlide() {
 	showSlide(currentSlide - 1);
-}*/
+}
+previousButton.addEventListener("click", showPreviousSlide);
+nextButton.addEventListener("click", showNextSlide);
+
+submitButton.addEventListener('click', () => {
+	checkResult();
+	showResults();
+	elem.onclick = func();
+});
+
