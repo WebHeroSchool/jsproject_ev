@@ -16,3 +16,9 @@ position: relative;
 height: 500px;
 margin-top: 40px;
 }
+.error {
+border : 1px solid red;
+}
+.error-block {
+color : red;
+}
