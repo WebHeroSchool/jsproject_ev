@@ -6,13 +6,17 @@ form.addEventListener('submit', function () {
 	name.classList.remove('error');
 	if (!regex.test(name.value)) {
 		event.preventDefault();
-		console.log('error');
 		name.classList.add('error');
 		let error = document.createElement('div');
 		error.className = 'error-block';
 		error.style.color = 'red';
 		error.innerHTML = 'Имя указано неверно';
 		name.parentElement.insertBefore(error, name);
+	}
+	else {
+		name.classList.remove('error');
+		let elem = document.getElementsByClassName('error-block');
+		elem[0].remove();
 	}
 })
 const buildQuiz = () => {
