@@ -4,6 +4,12 @@ let timer;
 const submitButton = document.getElementById('submit');
 const previousButton = document.getElementById('previous');
 const nextButton = document.getElementById('next');
+const countdownContainer = document.getElementById("countdown");
+countdownContainer.style.display = "none";
+submitButton.style.display = "none";
+previousButton.style.display = "none";
+nextButton.style.display = "none";
+
 let restartButton = document.getElementById('btn');
 
 form.addEventListener('submit', function (event) {
@@ -81,7 +87,8 @@ function start() {
 			}
 			output.push(
 				`<div class="slide">
-			<div class="question"> ${currentQuestion.question} </div>
+				
+				<div class="question"> ${currentQuestion.question} </div>
 			<div class="answers"> ${answers.join('')} </div>
 			</div>`
 			);
@@ -92,15 +99,8 @@ function start() {
 	const quizContainer = document.querySelector('.quiz-container');
 	const resultsContainer = document.getElementById('results');
 
-	function func() {
-		let inputs = document.querySelectorAll(".input");
-		for (let i = 0; i < inputs.length; i++) {
-			inputs[i].disabled = true;
-		}
-	};
-	let elem = document.querySelectorAll('.input');
-
 	let numCorrect = 0;
+
 	function checkResult() {
 		const answerContainers = quizContainer.querySelectorAll('.answers');
 		questions.forEach((currentQuestion, questionNumber) => {
@@ -114,45 +114,58 @@ function start() {
 			else {
 				answerContainers[questionNumber].style.color = 'red';
 			}
+
 		});
 	}
 
 	function showResults() {
 		resultsContainer.innerHTML = `Правильных ответов ${numCorrect} из ${questions.length}`;
-
 	}
 
 	buildQuiz(questions);
+	const radiobuttons = document.querySelectorAll(".answers input");
+	radiobuttons.forEach(button => button.removeAttribute("disabled"));
 
+	radiobuttons.forEach(button => button.addEventListener('click', () => {
+		clearTimeout(timer);
+		clearInterval(interval);
+	}));
 
 	const slides = document.querySelectorAll('.slide');
 	let currentSlide = 0;
-	let isCompleted = slides.length;
 
 	function showSlide(n) {
 		slides[currentSlide].classList.remove('active-slide');
 		slides[n].classList.add('active-slide');
 		currentSlide = n;
 
-		const radiobuttons = document.querySelectorAll(".answers input");
-		radiobuttons.forEach(button => button.removeAttribute("disabled"));
+		function countdown() {
+			countdownContainer.style.display = "block";
+			let display = document.querySelector("#countdown .display")
+			let timeLeft = "10";
+			interval = setInterval(function () {
+				if (--timeLeft >= 0) {
+					display.innerHTML = timeLeft
+				} else {
+					document.querySelector("#countdown h1").style.display = "none";
+					previousButton.style.display = "none";
+					nextButton.style.display = "none";
+					submitButton.style.display = "none";
+					restartButton.style.display = "inline-block";
+					clearInterval(interval);
+					timeLeft = "10";
+				}
+			}, 1000)
+		}
+
+		countdown();
 
 		function blockQuizOnTimeout() {
 			radiobuttons.forEach(button => button.setAttribute("disabled", true));
 			alert("Время на ответ истекло");
 		}
 
-		if (timer !== null) clearTimeout(timer);
-		if (currentSlide < slides.length - 1 && isCompleted === null) {
-			timer = setTimeout(() => {
-				showNextSlide();
-				blockQuizOnTimeout(currentSlide - 1);
-			}, 10000);
-		} else {
-			timer = setTimeout(() => {
-				blockQuizOnTimeout(currentSlide);
-			}, 10000);
-		}
+		timer = setTimeout(blockQuizOnTimeout, 10000);
 
 		if (currentSlide === 0) {
 			previousButton.style.display = 'none';
@@ -168,7 +181,6 @@ function start() {
 		}
 	}
 
-
 	showSlide(currentSlide);
 
 	function showNextSlide() {
@@ -183,19 +195,12 @@ function start() {
 	submitButton.addEventListener('click', () => {
 		checkResult();
 		showResults();
-		elem.onclick = func();
 		btn.classList.remove('btn_block');
+		countdownContainer.style.display = "none";
 	})
 
-
-	function restart() {
-		resultsContainer.classList.add('result');
-		start();
-		nextButton.disabled = false;
-		previousButton.disabled = false;
-		restartButton.classList.add('btn_block');
-		showSlide(currentSlide);
+	function reloadLocation() {
+		location.reload();
 	}
-	restartButton.addEventListener('click', restart);
+	restartButton.addEventListener('click', reloadLocation);
 }
-

@@ -34,3 +34,7 @@ color : red;
 .btn_block {
     display: none;
 }
+.countdownContainer {
+position: absolute;
+left: 50%;
+}
