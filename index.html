@@ -8,16 +8,22 @@
 
 <body>
     <div class="quiz-container">
+
         <div id="quiz"></div>
+
+        <form action="#" class="form">
+            <input type="text" name="name" placeholder="Имя" class="form-name" required />
+            <button type="submit">Начать тест</button>
+        </form>
     </div>
-    <form action="#" class="form">
-        <input type="text" name="name" placeholder="Имя" class="form-name" required />
-        <button type="submit">Отправить</button>
-    </form>
+    <div id="countdown" class="countdownContainer">
+        <h1>Осталось <span class="display">10</span> секунд</h1>
+    </div>
     <button id="previous"> Предыдущий вопрос </button>
     <button id="next"> Следующий вопрос </button>
     <button id="submit"> Узнать результат </button>
     <div id="results"></div>
+    <button id="btn" class="btn_block">Пройти тест еще раз</button>
     <script src="script.js" type="text/javascript"></script>
 
 </body>

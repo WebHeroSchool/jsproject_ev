@@ -22,3 +22,29 @@ border : 1px solid red;
 .error-block {
 color : red;
 }
+.start {
+    display: none;
+}
+.result {
+    display: none;
+}
+.btn {
+    display: inline-block;
+}
+.btn_block {
+    display: none;
+}
+.countdownContainer {
+position: absolute;
+left: 50%;
+display: none;
+}
+#previous {
+    display: none;
+}
+#next {
+    display: none;
+}
+#submit {
+    display: none;
+}
