@@ -191,10 +191,10 @@ fetch('https://opentdb.com/api.php?amount=4&category=9&difficulty=medium&type=bo
 				}
 				if (currentSlide === slides.length - 1) {
 					nextButton.style.display = 'none';
-					submitButton.style = 'inline-block';
+					submitButton.style.display = 'inline-block';
 				} else {
 					nextButton.style.display = 'inline-block';
-					submitButton.style = 'none';
+					submitButton.style.display = 'none';
 				}
 			}
 
@@ -214,6 +214,8 @@ fetch('https://opentdb.com/api.php?amount=4&category=9&difficulty=medium&type=bo
 				showResults();
 				btn.classList.remove('btn_block');
 				countdownContainer.style.display = "none";
+				previousButton.style.display = 'none';
+				submitButton.style.display = 'none';
 			})
 
 			function reloadLocation() {
